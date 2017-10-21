@@ -1,0 +1,19 @@
+{
+  "name": "controller",
+  "version": "1.0.0",
+  "description": "Mobile controller for desktop games",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alexander Belanger",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "nodejs": "0.0.0",
+    "robotjs": "^0.4.7",
+    "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3"
+  }
+}
