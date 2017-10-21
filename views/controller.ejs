@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <title>Controller</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      width: 100%;
+
+    }
+
+    .container {
+      width: 100%;
+      height: 100%;
+      background-color: rgb(80, 50, 50);
+      text-align: center; 
+    }
+
+    .square {
+      display: inline-block;
+      height: 20%;
+      width: 20%;
+      margin-right: 5%;
+      background-color: rgb(50, 120, 120);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <% pad.forEach(function(key) { %>
+    <div class= "square " + <%= key.id %> id= <%= key.press %>></div>
+    <% }); %>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      var socket = io();
+
+      $('.square').click(function() {
+        var key_id = $(this).attr('id'); 
+        socket.emit('controller-key', {'key': key_id}); 
+      });
+    }); 
+  </script>
+</body>
+</html>
