@@ -25,12 +25,13 @@
     body {
       background-color: #edeeef;
       -webkit-user-select:none;
+      overflow:hidden;
     }
 
       .dpad-pane {
         display: inline-block;
         vertical-align: top;
-        margin-left:20%;
+        margin-left:10%;
         margin-top:16%;
         width: 3.3em;
         height: 2.6em;
@@ -120,7 +121,7 @@
       display: inline-block;
       vertical-align: top;
       margin-top: 19%;
-      margin-right: 20%;
+      margin-right: 15%;
       width: 2.4em;
       height: 2.4em;
       position: relative;
@@ -319,11 +320,25 @@
 
       </section>
 <div id="bottom"> </div>
-  <script>
+<script>
+$(document).ready(function() {
+document.getElementById( 'select' ).scrollIntoView();
+});
+</script>
+<script>
+window.addEventListener("orientationchange", function() {
+  // Announce the new orientation number
   $(document).ready(function() {
-  document.getElementById( 'bottom' ).scrollIntoView();
-  });
-  </script>
+    window.location.reload();
+  })
+}, false);
+</script>
+<script>
+var noScroll = document.getElementById("hiddenarea");
+noScroll.addEventListener("ontouchmove", function(e) {
+    e.preventDefault();
+});
+</script>
 </div>
 </body>
 </html>
