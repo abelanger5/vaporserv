@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+<head>
+  <title>Controller</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css?family=Bungee+Inline" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      height: 100%;
+      width: 100%;
+      background-color: rgb(230, 230, 230);
+      overflow: hidden;
+    }
+
+    .url-container {
+      position: absolute;
+      text-align: center; 
+      width: 75%;
+      height: 25%;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      padding-top: 15%;
+    }
+
+    .url-header {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      height: 80px;
+      text-align: center;
+    }
+
+    .url-header h1 {
+      font-family: Arial, sans-serif;
+      font-size: 60px;
+      letter-spacing: 0.2em; 
+      color: rgb(180, 180, 180);
+    }
+
+    .bottom-border {
+      position: absolute;
+      height: 2px;
+      background-color: rgb(180, 180, 180);;
+      width: 95%;
+      bottom: 5%;
+      left: 0;
+    }
+
+    .form-container {
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      height: 75%;
+      top: 25%;
+    }
+
+    form {
+      height: 13%;
+      width: 85%;
+      background-color: red;
+      color: white;
+      padding-top: 3%;
+      font-size: 28px;
+      font-family: Arial, sans-serif;
+      margin: 8% auto;
+    }
+
+    form:hover {
+      cursor: pointer;
+    }
+
+    #player_1 {
+      background-color: rgb(224,102,102); 
+    }
+
+    #player_2 {
+      background-color: rgb(182,215,168); 
+    }
+
+    #player_3 {
+      background-color: rgb(199,184,237); 
+    }
+
+    #player_4 {
+      background-color: rgb(249,203,156); 
+    }
+
+    .true {
+      background-color: rgb(220, 220, 220);
+    }
+
+/* OLD CODE FOR BACKLIGHT GLOW
+    .player_1 {
+      position: relative;
+      display: inline-block;
+      height: auto;
+      width: 80%;
+      margin: 10px auto;
+      -webkit-filter: drop-shadow(0px 0px 15px rgba(249, 91, 2, 0.95));
+    } */
+
+  </style>
+</head>
+<body>
+  <div class="url-container">
+    <div class="url-header"><h1><%= url_id %></h1></div>
+    <div class="bottom-border"></div>
+  </div>
+  <div class="form-container">
+    <% players.forEach(function(player) { %>
+    <form method="post" action=<%= url_id + "/player"%> id= <%=" player_" + player.id%>>P L A Y E R &nbsp;<%=player.id%>
+      <input type="hidden" value=<%= player.id + ""%> name="player">
+    </form>
+    <% }); %>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script>
+    var socket = io();
+    var url_id = window.location.pathname.split('/')[1]; 
+    socket.emit('select-query', {url: url_id}); 
+
+    $(document).ready(function() {
+
+      $('form').click(function() {
+        $(this).submit(); 
+      });
+
+      socket.on(url_id + '-disable', function (msg) {
+        var disable = msg.pid; 
+        $('#player_' + disable + ' :input').prop("disabled", true); 
+        $('#player_' + disable).css("background-color", "rgb(220, 220, 220)"); 
+      }); 
+
+      socket.on(url_id + '-client-enable', function(msg) {
+        var enable = msg.pid; 
+        
+        $('#player_' + enable + ' :input').prop("disabled", false); 
+
+        var color; 
+        //find correct colors to recolor with
+        if (enable == 1) {
+          color = "rgb(224,102,102)";
+        } else if (enable == 2) {
+          color = "rgb(182,215,168)";
+        } else if (enable == 3) {
+          color = "rgb(199,184,237)"; 
+        } else if (enable == 4) {
+          color = "rgb(249,203,156)"; 
+        }
+
+        $('#player_' + enable).css("background-color", color);
+      }); 
+/*
+      console.log(url_id + '-connected'); 
+      socket.on(url_id + '-connected', function (msg) {
+        for (var i = 0; i < 4; i++) {
+          console.log(msg.connected_clients[i]); 
+        }
+      }); */
+
+    });
+  </script>
+</body>
+</html>

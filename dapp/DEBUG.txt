@@ -1,0 +1,29 @@
+Terrible, terrible error for robotjs -> could not find robotjs in the 
+context of electron - when attempting to fix it, here is the copy of the stack trace (shortened):
+
+An unhandled error occurred inside electron-rebuild
+gyp info it worked if it ends with ok
+gyp info using node-gyp@3.6.2
+gyp info using node@6.10.1 | win32 | x64
+gyp ERR! configure error
+gyp ERR! stack Error: Can't find Python executable "C:\Users\abelanger\AppData\Local\Programs\Python\Python35\python.exe", you can set the PYTHON env variable.
+gyp ERR! stack     at Object.failNoPython (C:\Users\abelanger\Desktop\dapp\node_modules\node-gyp\lib\configure.js:483:19)
+gyp ERR! stack     at Object.<anonymous> (C:\Users\abelanger\Desktop\dapp\node_modules\node-gyp\lib\configure.js:508:16)
+gyp ERR! stack     at C:\Users\abelanger\Desktop\dapp\node_modules\graceful-fs\polyfills.js:284:29
+gyp ERR! stack     at FSReqWrap.oncomplete (fs.js:123:15)
+gyp ERR! System Windows_NT 10.0.15063
+gyp ERR! command "C:\\Program Files\\nodejs\\node.exe" "C:\\Users\\abelanger\\Desktop\\dapp\\node_modules\\node-gyp\\bin\\node-gyp.js" "rebuild" "--target=1.7.9" "--arch=x64" "--dist-url=https://atom.io/download/electron" "--build-from-source"
+gyp ERR! cwd C:\Users\abelanger\Desktop\dapp\node_modules\robotjs
+gyp ERR! node -v v6.10.1
+gyp ERR! node-gyp -v v3.6.2
+gyp ERR! not ok
+
+Fix: it could not find the "python executable". From PowerShell, right click and "run as admin," run 
+the following: 
+
+npm install --global --production windows-build-tools OR 
+npm --add-python-to-path='true' --debug install --global windows-build-tools (don't remember which one)
+
+Then, run .\node_modules\.bin\electron-rebuild.cmd (you obviously need to npm install electron-rebuild)
+
+Then, it should work. 

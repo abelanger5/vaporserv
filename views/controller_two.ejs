@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content='width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0, user-scalable=0'/>
+  <style>
+  @media only screen and (orientation: portrait) {
+    body {
+      background-image: url("https://media.giphy.com/media/bD0NmbDsoTzAQ/giphy.gif");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: 50% -30%;
+      display:inline-block;
+    }
+
+    .hiddenarea {
+      display:none;
+    }
+
+    .player-id {
+        display: none;
+      }
+  }
+  @media only screen and (orientation:landscape) {
+    body {
+      background-color: #edeeef;
+    }
+
+
+      .dpad-pane {
+        display: inline-block;
+        vertical-align: top;
+        margin-left:20%;
+        margin-top:14%;
+        width: 3.3em;
+        height: 2.6em;
+        position: relative;
+      }
+
+        .dpad-hole:before, .dpad-hole:after {
+          content: "";
+          background-color: gray;
+          margin: 7%;
+          width: 86%;
+          height: 400%;
+          position: absolute;
+          top: -93%;
+          left: 0;
+          border-radius: .2em;
+          z-index: 1;
+        }
+        .dpad-pane:after, .dpad-hole:after  {
+          transform: rotate(90deg);
+        }
+
+          #dpad-body {
+            left: 12.3em;
+            top: 2.3em;
+            position: absolute;
+            z-index: 1;
+          }
+          #dpad .button {
+            position: absolute;
+            z-index: 2;
+            width: 3.3em;
+            height: 3em;
+            background-color: rgba(0, 0, 0, 0); /* "transparent" buttons in ie9 aren't clickable, but rgba can be used */
+            border: none;
+            padding: 0;
+            margin: 2.0em 0.6em ;
+          }
+
+
+          #up { top: -4.3em; }
+
+          #right {
+            left: 4.3em;
+          }
+
+          #down {
+            top: 3.8em;
+          }
+
+          #left {
+            left: -4.3em;
+          }
+
+
+    .menu-pane {
+      display: inline-block;
+      vertical-align: top;
+      width: 11.5em;
+      height: 100%;
+      margin-top:45%;
+      }
+
+        .menu-pane .buttons {
+          width: 100%;
+          height: 3.6em;
+          border-radius: .3em;
+          position:relative;
+        }
+          .menu-pane .button {
+            position: relative;
+            height: 3.2em;
+            width: 3.7em;
+            border-radius: 1em;
+            background-color: #2a2a2a;
+            color: #2a2a2a;
+          }
+
+      .start { float: right; }
+      .select { float: left; }
+
+    .action-pane {
+      float:right;
+      display: inline-block;
+      vertical-align: top;
+      margin-top: 17%;
+      margin-right: 20%;
+      width: 2.6em;
+      height: 2.6em;
+      position: relative;
+      }
+
+      .action-pane .label {
+        border-radius: 0.4rem;
+        width: 4rem;
+        height: 4rem;
+
+        }
+
+      .action-pane .button {
+        width: 3.5rem;
+        height: 3.5rem;
+        background-color:#bc4332;
+        border-radius: 2em;
+        position: absolute;
+        border: none;
+        padding: 0;
+      }
+
+      #c { top: -4.7em;
+      background-color: #6e99c9;
+     }
+
+      #h {
+        left: 4.7em;
+      }
+
+      #v {
+        margin-top: 4.7em;
+      }
+
+      #g {
+        left: -4.7em;
+        background-color: #6e99c9;
+      }
+
+      .player-id {
+        display: none;
+      }
+  }
+  </style>
+
+</head>
+
+
+  <body>
+    <div class="player-id"><%= pid %></div>
+
+    <div class="hiddenarea">
+      <section class="dpad-pane">
+        <div class="dpad-hole"></div>
+        <div id="dpad">
+          <button class="button" id="up"></button>
+          <button class="button" id="right"></button>
+          <button class="button" id="down"></button>
+          <button class="button" id="left"></button>
+        </div>
+      </section>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+      <script>
+        $(document).ready(function() {
+          url_id = window.location.pathname.split('/')[1]; 
+          var socket = io();
+          socket.emit('player-connect', {url: url_id, pid: $('.player-id').html()}); 
+            var obj = document.getElementById('up');
+            obj.addEventListener('touchstart', function(event) {
+              socket.emit('controller-key', {'key': 'a-down', 'url': url_id});
+            })
+            obj.addEventListener('touchend', function(event) {
+              socket.emit('controller-key', {'key': 'a-up', 'url': url_id});
+            }, false);
+        });
+      </script>
+
+      <script>
+        $(document).ready(function() {
+          url_id = window.location.pathname.split('/')[1]; 
+          var socket = io();
+            var obj = document.getElementById('down');
+            obj.addEventListener('touchstart', function(event) {
+              socket.emit('controller-key', {'key': 's-down', 'url': url_id});
+            })
+            obj.addEventListener('touchend', function(event) {
+              socket.emit('controller-key', {'key': 's-up', 'url': url_id});
+            }, false);
+        });
+      </script>
+
+      <script>
+        $(document).ready(function() {
+          url_id = window.location.pathname.split('/')[1]; 
+          var socket = io();
+            var obj = document.getElementById('right');
+            obj.addEventListener('touchstart', function(event) {
+              socket.emit('controller-key', {'key': 'd-down', 'url': url_id});
+
+            })
+            obj.addEventListener('touchend', function(event) {
+              socket.emit('controller-key', {'key': 'd-up', 'url': url_id});
+            }, false);
+        });
+      </script>
+
+      <script>
+        $(document).ready(function() {
+          url_id = window.location.pathname.split('/')[1]; 
+          var socket = io();
+            var obj = document.getElementById('left');
+            obj.addEventListener('touchstart', function(event) {
+              socket.emit('controller-key', {'key': 'f-down', 'url': url_id});
+            })
+            obj.addEventListener('touchend', function(event) {
+              socket.emit('controller-key', {'key': 'f-up', 'url': url_id});
+            }, false);
+        });
+      </script>
+
+
+      <section class="menu-pane">
+        <div class="labels">
+          <label class="select" for="select"></label><label class="start" for="start"></label>
+        </div>
+        <div class="buttons">
+          <button class="button select" id="select"></button>
+          <button class="button start" id="start"></button>
+        </div>
+      </section>
+      <section class="action-pane">
+
+        <div>
+          <label class="label"><button class="button" id="c"></button></label>
+          <label class="label"><button class="button" id="g"></button></label>
+          <label class="label"><button class="button" id="h"></button></label>
+          <label class="label"><button class="button" id="v"></button></label>
+        </div>
+
+        <script>
+      $(document).ready(function() {
+        url_id = window.location.pathname.split('/')[1]; 
+        var socket = io();
+          var obj = document.getElementById('g');
+          obj.addEventListener('touchstart', function(event) {
+            socket.emit('controller-key', {'key': 'g-down', 'url': url_id});
+          })
+          obj.addEventListener('touchend', function(event) {
+            socket.emit('controller-key', {'key': 'g-up', 'url': url_id});
+          })
+      });
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        url_id = window.location.pathname.split('/')[1]; 
+        var socket = io();
+          var obj = document.getElementById('h');
+          obj.addEventListener('touchstart', function(event) {
+            socket.emit('controller-key', {'key': 'h-down', 'url': url_id});
+          })
+          obj.addEventListener('touchend', function(event) {
+            socket.emit('controller-key', {'key': 'h-up', 'url': url_id});
+          })
+      });
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        url_id = window.location.pathname.split('/')[1]; 
+        var socket = io();
+          var obj = document.getElementById('c');
+          obj.addEventListener('touchstart', function(event) {
+            socket.emit('controller-key', {'key': 'c-down', 'url': url_id});
+          })
+          obj.addEventListener('touchend', function(event) {
+            socket.emit('controller-key', {'key': 'c-up', 'url': url_id});
+          })
+      });
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        url_id = window.location.pathname.split('/')[1]; 
+        var socket = io();
+          var obj = document.getElementById('v');
+          obj.addEventListener('touchstart', function(event) {
+            socket.emit('controller-key', {'key': 'v-down', 'url': url_id});
+          })
+          obj.addEventListener('touchend', function(event) {
+            socket.emit('controller-key', {'key': 'v-up', 'url': url_id});
+          })
+      });
+    </script>
+
+
+      </section>
+<div id="bottom"> </div>
+  <script>
+  $(document).ready(function() {
+  document.getElementById( 'bottom' ).scrollIntoView();
+  });
+  </script>
+</div>
+</body>
+</html>

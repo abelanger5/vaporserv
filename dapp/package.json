@@ -1,0 +1,23 @@
+{
+  "name": "dapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron app.js",
+    "rebuild": "electron-rebuild -f -w robotjs"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "app": "^0.1.0",
+    "browser-window": "^0.4.0",
+    "jquery": "^3.2.1",
+    "robotjs": "^0.4.7",
+    "socket.io-client": "^2.0.3"
+  },
+  "devDependencies": {
+    "electron": "1.7.9",
+    "electron-rebuild": "^1.6.0"
+  }
+}
