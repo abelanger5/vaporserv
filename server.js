@@ -15,38 +15,36 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /*********************************************
 GAME PAD TYPES
 *********************************************/
+//default game pads
+var dpad_1 = [{ id: 'up', press: 'q'}, { id: 'down', press: 'w'}, 
+{ id: 'left', press: 'r'}, { id: 'right', press: 'e'}]; 
 
-var pad_1 = [{ id: 'up', press: 'q'}, { id: 'down', press: 'w'}, 
-{ id: 'left', press: 'e'}, { id: 'right', press: 'r'}, 
-{ id: 'action_one', press: 't'}, { id: 'action_two', press: 'y'}, 
-{ id: 'action_three', press: 'u'}, { id: 'action_four', press: 'i'}];
+var action_1 = [{ id: 'action_one', press: 'x'}, { id: 'action_two', press: 'y'}, 
+{ id: 'action_three', press: 'z'}, { id: 'action_four', press: 't'}];
 
-var pad_2 = [{ id: 'up', press: 'o'}, { id: 'down', press: 'p'}, 
-{ id: 'left', press: 'a'}, { id: 'right', press: 's'}, 
-{ id: 'action_one', press: 'd'}, { id: 'action_two', press: 'f'}, 
-{ id: 'action_three', press: 'g'}, { id: 'action_four', press: 'h'}];
+var dpad_2 = [{ id: 'up', press: 'a'}, { id: 'down', press: 's'}, 
+{ id: 'left', press: 'f'}, { id: 'right', press: 'd'}]; 
 
-/*var pad_1 = [
-        { up: 'q'}, { down: 'w'}, { left: 'e'}, { right: 'r'}, 
-        { action_one: 't'}, { action_two: 'y'}, { action_three: 'y'}, 
-        { action_four: 'u'}
-    ];
+var action_2 = [{ id: 'action_one', press: 'c'}, { id: 'action_two', press: 'h'}, 
+{ id: 'action_three', press: 'v'}, { id: 'action_four', press: 'g'}]; 
 
-var pad_2 = [
-        { up: 'a'}, { down: 's'}, { left: 'd'}, { right: 'f'}, 
-        { action_one: 'g'}, { action_two: 'h'}, { action_three: 'j'}, 
-        { action_four: 'k'}
-        ];*/
+var dpad_3 = [{ id: 'up', press: '1'}, { id: 'down', press: '2'}, 
+{ id: 'left', press: '4'}, { id: 'right', press: '3'}]; 
+
+var action_3 = [{ id: 'action_one', press: '7'}, { id: 'action_two', press: '6'}, 
+{ id: 'action_three', press: '8'}, { id: 'action_four', press: '5'}];
+
+var dpad_4 = [{ id: 'up', press: 'u'}, { id: 'down', press: 'i'}, 
+{ id: 'left', press: 'p'}, { id: 'right', press: 'o'}]; 
+
+var action_4 = [{ id: 'action_one', press: 'l'}, { id: 'action_two', press: 'k'}, 
+{ id: 'action_three', press: 'm'}, { id: 'action_four', press: 'j'}];
 
 /*********************************************
 SERVE EJS FILES
 *********************************************/
-app.get('/', function(request, response) {
-	response.render('index.ejs');
-});
-
-app.get('/demo', function(request, response) {
-	response.render('demo.ejs');
+app.get('/', function(req, res) {
+	res.render('controller.ejs', {pid: 1, dpad: dpad_1, action: action_1});  
 });
 
 function create_url (url, socket) {
@@ -64,15 +62,15 @@ function create_url (url, socket) {
 	app.post('/' + url + '/player', function(req, res) {
 		var player_id = req.body.player; 
 		io.emit(url + '-disable', { pid: player_id}); 
-		console.log(url + '-disable'); 
+		console.log(url + '-disable'); 		
 		if (player_id == 1) {
-			res.render('controller_one.ejs', {pid: 1}); 
+			res.render('controller.ejs', {pid: 1, dpad: dpad_1, action: action_1}); 
 		} else if (player_id == 2) {
-			res.render('controller_two.ejs', {pid: 2}); 
+			res.render('controller.ejs', {pid: 2, dpad: dpad_2, action: action_2}); 
 		} else if (player_id == 3) {
-			res.render('controller_three.ejs', {pid: 3}); 
+			res.render('controller.ejs', {pid: 3, dpad: dpad_3, action: action_3}); 
 		} else if (player_id == 4) {
-			res.render('controller_four.ejs', {pid: 4}); 
+			res.render('controller.ejs', {pid: 4, dpad: dpad_4, action: action_4});
 		}
 	}); 
 }
