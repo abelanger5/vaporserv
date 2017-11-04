@@ -486,25 +486,25 @@ p),exports.interact=p):"function"===typeof define&&define.amd?define("interact",
         var curr_x = $('.joystick').position().left; 
         var curr_y = $('.joystick').position().top; 
 
-        if (curr_y < (radius)) {
+        if (curr_y < (radius - radius/1.7)) {
           check_key_change (0, true); 
         } else {
           check_key_change (0, false); 
         }
 
-        if (curr_y > radius - radius/2) {
+        if (curr_y > radius - radius/2 + radius/1.7) {
           check_key_change (1, true); 
         } else {
           check_key_change (1, false); 
         }
 
-        if (curr_x < (radius)) {
+        if (curr_x < (radius - radius/1.7)) {
           check_key_change (2, true);
         } else {
           check_key_change (2, false); 
         }
 
-        if (curr_x > radius - radius/2) {
+        if (curr_x > radius - radius/2 + radius/1.7) {
           check_key_change (3, true); 
         } else {
           check_key_change (3, false); 
