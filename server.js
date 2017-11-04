@@ -61,7 +61,6 @@ function create_url (url, socket) {
 	}); 
 
 	app.post('/' + url + '/player', function(req, res) {
-		res.render('controller.ejs', {pid: 1, dpad: dpad_1, action: action_1});
 		var player_id = req.body.player; 
 		io.emit(url + '-disable', { pid: player_id}); 
 		console.log(url + '-disable'); 	
