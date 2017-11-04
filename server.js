@@ -56,13 +56,16 @@ function create_url (url, socket) {
 	}
 
 	app.get('/' + url, function(req, res) {
+		//res.render('controller.ejs', {pid: 1, dpad: dpad_1, action: action_1}); THIS WORKS
 		res.render('select.ejs', {url_id: url, players: players_array});
 	}); 
 
 	app.post('/' + url + '/player', function(req, res) {
+		res.render('controller.ejs', {pid: 1, dpad: dpad_1, action: action_1});
 		var player_id = req.body.player; 
 		io.emit(url + '-disable', { pid: player_id}); 
-		console.log(url + '-disable'); 		
+		console.log(url + '-disable'); 	
+		
 		if (player_id == 1) {
 			res.render('controller.ejs', {pid: 1, dpad: dpad_1, action: action_1}); 
 		} else if (player_id == 2) {
